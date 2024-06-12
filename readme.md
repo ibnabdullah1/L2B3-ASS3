@@ -18,6 +18,8 @@ The Car Wash Booking System is a backend application that manages user registrat
 - **Web Framework:** Express.js
 - **Database:** MongoDB
 - **ODM:** Mongoose
+- **ZOD:** ZOD
+- **JWT:** JWT
 
 ## Requirements
 
@@ -51,9 +53,19 @@ The Car Wash Booking System is a backend application that manages user registrat
    JWT_SECRET=your_jwt_secret
    ```
 
-5. Start the server:
+5. Start the server Development:
    ```bash
-   npm start
+   npm run start:dev
+   ```
+   
+6. TSC Watch Mode:
+   ```bash
+   tsc --watch
+   ```
+   
+7. Start the server Production:
+   ```bash
+   npm run start:prod
    ```
 
 ## API Endpoints
@@ -414,11 +426,4 @@ The Car Wash Booking System is a backend application that manages user registrat
   }
   ```
 
-## Contributors
 
-- John Doe (@johndoe)
-- Jane Smith (@janesmith)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
