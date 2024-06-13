@@ -2,6 +2,7 @@ import httpStatus from 'http-status'
 import AppError from '../../errors/AppError'
 import { TService, TSlot } from './service.interface'
 import { Service, Slot } from './service.model'
+import { isValidDateFormat } from './service.utils'
 
 const createServiceIntoDB = async (payload: TService) => {
   const result = await Service.create(payload)
@@ -40,6 +41,15 @@ const createSlotFromDB = async (payload: TSlot) => {
 
   if (!isServiceExist) {
     throw new AppError(httpStatus.NOT_FOUND, 'Service not found')
+  }
+
+  // Check if the valid date format
+  const validDate = isValidDateFormat(date)
+  if (!validDate) {
+    throw new AppError(
+      httpStatus.CONFLICT,
+      'Invalid date format. Please use YYYY-MM-DD.',
+    )
   }
 
   // Convert start and end times to minutes
@@ -81,6 +91,7 @@ const createSlotFromDB = async (payload: TSlot) => {
   const result = await Slot.create(slots)
   return result
 }
+
 export const ServiceServices = {
   createServiceIntoDB,
   getSingleServiceIntoDB,

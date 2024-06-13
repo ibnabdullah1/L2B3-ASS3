@@ -29,7 +29,6 @@ const serviceSchema = new Schema<TService>(
     versionKey: false,
   },
 )
-
 const SlotSchema = new Schema<TSlot>(
   {
     service: {
@@ -51,7 +50,8 @@ const SlotSchema = new Schema<TSlot>(
     },
     isBooked: {
       type: String,
-      default: 'Available',
+      enum: ['available', 'blocked', 'canceled'],
+      default: 'available',
     },
   },
   { timestamps: true },

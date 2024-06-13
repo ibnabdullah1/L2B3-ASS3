@@ -19,6 +19,7 @@ router.post(
   validateRequest(ServiceValidations.slotValidationSchema),
   ServiceControllers.createSlot,
 )
+
 router.patch(
   '/:id',
   auth(USER_ROLE.admin),
