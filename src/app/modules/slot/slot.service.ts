@@ -31,7 +31,6 @@ const getAvailableSlots = async ({
 
     filter.service = serviceId
   }
-  console.log(filter)
   const availableSlots = await Slot.find(filter).populate('service')
   return availableSlots
 }
