@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
-import httpStatus from 'http-status'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import config from '../config'
-import AppError from '../errors/AppError'
 import { TUserRole } from '../interface/error'
 import catchAsync from '../utils/catchAsync'
+import sendResponse from '../utils/sendResponse'
 
 export const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -12,7 +11,11 @@ export const auth = (...requiredRoles: TUserRole[]) => {
 
     // checking if the token is missing
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!')
+      return sendResponse(res, {
+        success: false,
+        statusCode: 404,
+        message: 'Please provide a token',
+      })
     }
     jwt.verify(
       token,
@@ -20,16 +23,21 @@ export const auth = (...requiredRoles: TUserRole[]) => {
       function (err, decoded) {
         // err
         if (err) {
-          throw new AppError(
-            httpStatus.UNAUTHORIZED,
-            'You are not authorized! Hi!',
-          )
+          return sendResponse(res, {
+            success: false,
+            statusCode: 404,
+            message: 'You are not authorized!',
+          })
         }
 
         // Decoded undefined
         const role = (decoded as JwtPayload).role
         if (requiredRoles && !requiredRoles.includes(role)) {
-          throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!')
+          return sendResponse(res, {
+            success: false,
+            statusCode: 401,
+            message: 'You have no access to this route',
+          })
         }
         req.user = decoded as JwtPayload
 

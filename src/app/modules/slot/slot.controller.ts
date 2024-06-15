@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express'
-import httpStatus from 'http-status'
 import catchAsync from '../../utils/catchAsync'
 import sendResponse from '../../utils/sendResponse'
 import { SlotServices } from './slot.service'
@@ -11,7 +10,7 @@ const getAllSlot: RequestHandler = catchAsync(async (req, res) => {
     serviceId: serviceId as string,
   })
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: 200,
     success: true,
     message: 'Available slots retrieved successfully',
     data: result,

@@ -30,17 +30,6 @@ const createBooking: RequestHandler = catchAsync(async (req, res) => {
   })
 })
 
-const getSingleBooking: RequestHandler = catchAsync(async (req, res) => {
-  const id = req.params.id
-
-  const result = await BookingServices.getSingleBookingIntoDB(id)
-  sendResponse(res, {
-    statusCode: 200,
-    success: true,
-    message: 'Booking retrieved successfully',
-    data: result,
-  })
-})
 const getAllBooking: RequestHandler = catchAsync(async (req, res) => {
   const result = await BookingServices.getAllBookingIntoDB()
   sendResponse(res, {
@@ -51,21 +40,30 @@ const getAllBooking: RequestHandler = catchAsync(async (req, res) => {
   })
 })
 
-const updateBooking: RequestHandler = catchAsync(async (req, res) => {
-  const id = req.params.id
-
-  const result = await BookingServices.updateSingleBookingIntoDB(id, req.body)
+const getSingleBooking: RequestHandler = catchAsync(async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1]
+  if (!token) {
+    return res.status(httpStatus.UNAUTHORIZED).send({
+      success: false,
+      message: 'No token provided',
+    })
+  }
+  const decoded = jwt.verify(
+    token,
+    config.jwt_access_secret as string,
+  ) as JwtPayload
+  const userEmail = decoded?.userEmail
+  const result = await BookingServices.getSingleBookingIntoDB(userEmail)
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Bookings updated successfully',
+    message: 'User bookings retrieved successfully',
     data: result,
   })
 })
 
 export const BookingControllers = {
   createBooking,
-  getSingleBooking,
   getAllBooking,
-  updateBooking,
+  getSingleBooking,
 }

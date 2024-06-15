@@ -15,6 +15,5 @@ router.post(
 )
 
 router.get('', auth(USER_ROLE.admin), BookingControllers.getAllBooking)
-router.get('/:id', BookingControllers.getSingleBooking)
 
 export const BookingRoutes = router

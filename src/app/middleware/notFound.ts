@@ -6,6 +6,7 @@ const notFound = (req: Request, res: Response) => {
     success: false,
     message: 'API Not Found !!',
     error: '',
+    data: [],
   })
 }
 

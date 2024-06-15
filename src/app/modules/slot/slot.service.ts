@@ -32,6 +32,7 @@ const getAvailableSlots = async ({
     filter.service = serviceId
   }
   const availableSlots = await Slot.find(filter).populate('service')
+
   return availableSlots
 }
 export const SlotServices = {

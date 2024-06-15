@@ -49,32 +49,54 @@ const createBookingIntoDB = async (payload: TBooking, userEmail: string) => {
 
   const result = await Booking.create(mainData)
   await (
-    await (await result.populate('customer')).populate('service')
-  ).populate('slot')
+    await (
+      await result.populate({
+        path: 'customer',
+        select: 'name email phone address',
+      })
+    ).populate({
+      path: 'service',
+      select: '_id name description price duration isDeleted',
+    })
+  ).populate({
+    path: 'slot',
+    select: '_id service date startTime endTime isBooked',
+  })
 
   return result
 }
 
 const getAllBookingIntoDB = async () => {
-  // const result = await Booking.find()
-  const result = await Booking.find({ isDeleted: false })
+  const result = await Booking.find()
+    .populate({
+      path: 'customer',
+      select: 'name email phone address',
+    })
+    .populate({
+      path: 'service',
+      select: '_id name description price duration isDeleted',
+    })
+    .populate({
+      path: 'slot',
+      select: '_id service date startTime endTime isBooked',
+    })
   return result
 }
-const getSingleBookingIntoDB = async (_id: string) => {
-  const result = await Booking.findOne({ _id })
-  return result
-}
-const updateSingleBookingIntoDB = async (
-  _id: string,
-  payload: Partial<TBooking>,
-) => {
-  const result = 'hello world'
+
+const getSingleBookingIntoDB = async (userEmail: string) => {
+  const user = await User.isUserExistsByEmail(userEmail)
+  const result = await Booking.find({
+    customer: user._id,
+  })
+    // .populate('customer')
+    .populate('service')
+    .populate('slot')
+    .select('-customer')
   return result
 }
 
 export const BookingServices = {
   createBookingIntoDB,
-  getSingleBookingIntoDB,
   getAllBookingIntoDB,
-  updateSingleBookingIntoDB,
+  getSingleBookingIntoDB,
 }

@@ -18,6 +18,17 @@ const loginUser = async (payload: TLoginUser) => {
     throw new AppError(httpStatus.FORBIDDEN, 'User does not exist')
   }
 
+  const filteredUser = {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    role: user.role,
+    address: user.address,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  }
+
   // Checking if the password is correct
   const isPasswordMatch = await User.isPasswordMatched(
     payload?.password,
@@ -36,7 +47,7 @@ const loginUser = async (payload: TLoginUser) => {
     expiresIn: '10d',
   })
 
-  return { AccessToken, user }
+  return { AccessToken, filteredUser }
 }
 export const UserServices = {
   signupIntoDB,
