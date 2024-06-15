@@ -15,6 +15,9 @@ const getAllServiceIntoDB = async () => {
 }
 const getSingleServiceIntoDB = async (_id: string) => {
   const result = await Service.findOne({ _id })
+  if (result?.isDeleted) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Service is deleted')
+  }
   return result
 }
 const updateServiceIntoDB = async (id: string, payload: Partial<TService>) => {

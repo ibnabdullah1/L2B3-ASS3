@@ -25,8 +25,8 @@ const loginUser = async (payload: TLoginUser) => {
     phone: user.phone,
     role: user.role,
     address: user.address,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
+    createdAt: user?.createdAt,
+    updatedAt: user?.updatedAt,
   }
 
   // Checking if the password is correct
