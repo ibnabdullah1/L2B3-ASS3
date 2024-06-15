@@ -1,5 +1,6 @@
 # Car Wash Booking System
 
+## live URL: https://car-washing-system-backend.vercel.app/
 ## Overview
 
 The Car Wash Booking System is a backend application that manages user registrations, service bookings, and slot scheduling for a car wash business. The system is built using TypeScript, Express.js, and MongoDB with Mongoose as the ODM.
