@@ -9,10 +9,12 @@ router.post(
   '/signup',
   validateRequest(UserValidations.signUpValidationSchema),
   UserControllers.createUser,
-),
-  router.post(
-    '/login',
-    validateRequest(UserValidations.loginValidationSchema),
-    UserControllers.loginUser,
-  )
+)
+
+router.post(
+  '/login',
+  validateRequest(UserValidations.loginValidationSchema),
+  UserControllers.loginUser,
+)
+
 export const UserRoutes = router

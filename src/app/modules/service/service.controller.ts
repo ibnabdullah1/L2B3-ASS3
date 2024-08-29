@@ -45,6 +45,17 @@ const updateService: RequestHandler = catchAsync(async (req, res) => {
     data: result,
   })
 })
+const addReviewInThisService: RequestHandler = catchAsync(async (req, res) => {
+  const id = req.params.id
+  const reviewData = req.body
+  const result = await ServiceServices.addReviewToService(id, reviewData)
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Review added successfully',
+    data: result,
+  })
+})
 const deleteService = catchAsync(async (req, res) => {
   const { id } = req.params
   const result = await ServiceServices.deleteServiceFromDB(id)
@@ -73,4 +84,5 @@ export const ServiceControllers = {
   updateService,
   deleteService,
   createSlot,
+  addReviewInThisService,
 }

@@ -6,6 +6,7 @@ import { TBooking } from './booking.interface'
 import { Booking } from './booking.model'
 
 const createBookingIntoDB = async (payload: TBooking, userEmail: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { serviceId, slotId } = payload as any
 
   const [isUserExist, isServiceExist, isSlotExist] = await Promise.all([
@@ -44,7 +45,7 @@ const createBookingIntoDB = async (payload: TBooking, userEmail: string) => {
     vehicleBrand: payload.vehicleBrand,
     vehicleModel: payload.vehicleModel,
     manufacturingYear: payload.manufacturingYear,
-    registrationPlate: payload.registrationPlate,
+    // registrationPlate: payload.registrationPlate,
   }
 
   const result = await Booking.create(mainData)
@@ -63,6 +64,23 @@ const createBookingIntoDB = async (payload: TBooking, userEmail: string) => {
     select: '_id service date startTime endTime isBooked',
   })
 
+  return result
+}
+
+const getUserAllBookingIntoDB = async () => {
+  const result = await Booking.find()
+    .populate({
+      path: 'customer',
+      select: 'name email phone address',
+    })
+    .populate({
+      path: 'service',
+      select: '_id name description price duration isDeleted',
+    })
+    .populate({
+      path: 'slot',
+      select: '_id service date startTime endTime isBooked',
+    })
   return result
 }
 
@@ -96,6 +114,7 @@ const getSingleBookingIntoDB = async (userEmail: string) => {
 }
 
 export const BookingServices = {
+  getUserAllBookingIntoDB,
   createBookingIntoDB,
   getAllBookingIntoDB,
   getSingleBookingIntoDB,

@@ -1,9 +1,9 @@
 import httpStatus from 'http-status'
+import jwt from 'jsonwebtoken'
 import config from '../../config'
 import AppError from '../../errors/AppError'
 import { User } from './use.model'
 import { TLoginUser, TUser } from './user.interface'
-const jwt = require('jsonwebtoken')
 
 const signupIntoDB = async (payload: TUser) => {
   const result = await User.create(payload)
@@ -19,14 +19,12 @@ const loginUser = async (payload: TLoginUser) => {
   }
 
   const filteredUser = {
-    _id: user._id,
     name: user.name,
     email: user.email,
     phone: user.phone,
     role: user.role,
+    profileUrl: user.profileUrl,
     address: user.address,
-    createdAt: user?.createdAt,
-    updatedAt: user?.updatedAt,
   }
 
   // Checking if the password is correct
@@ -42,8 +40,10 @@ const loginUser = async (payload: TLoginUser) => {
   const jwtPayload = {
     userEmail: user?.email as string,
     role: user.role,
+    name: user.name,
+    profileUrl: user.profileUrl,
   }
-  const AccessToken = jwt.sign(jwtPayload, config.jwt_access_secret, {
+  const AccessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: '10d',
   })
 

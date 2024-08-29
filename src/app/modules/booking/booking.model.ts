@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose'
-import { VehicleType } from './booking.constant'
 import { TBooking } from './booking.interface'
 
 const bookingSchema = new Schema<TBooking>(
@@ -22,7 +21,6 @@ const bookingSchema = new Schema<TBooking>(
     vehicleType: {
       type: String,
       required: true,
-      enum: VehicleType,
     },
     vehicleBrand: {
       type: String,
@@ -33,14 +31,14 @@ const bookingSchema = new Schema<TBooking>(
       required: true,
     },
     manufacturingYear: {
-      type: Number,
-      required: true,
-    },
-    registrationPlate: {
       type: String,
       required: true,
-      unique: true,
     },
+    // registrationPlate: {
+    //   type: String,
+    //   required: true,
+    //   unique: true,
+    // },
   },
   {
     timestamps: true,

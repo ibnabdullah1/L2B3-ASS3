@@ -19,7 +19,7 @@ router.post(
   validateRequest(ServiceValidations.slotValidationSchema),
   ServiceControllers.createSlot,
 )
-
+router.put('/service-review/:id', ServiceControllers.addReviewInThisService)
 router.patch(
   '/:id',
   auth(USER_ROLE.admin),

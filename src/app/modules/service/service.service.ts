@@ -26,8 +26,17 @@ const updateServiceIntoDB = async (id: string, payload: Partial<TService>) => {
   })
   return result
 }
+
+const addReviewToService = async (id: string, reviewData: unknown) => {
+  const updateDoc = {
+    $push: { reviewsCollection: reviewData },
+  }
+
+  const result = await Service.findByIdAndUpdate(id, updateDoc, { new: true })
+  return result
+}
+
 const deleteServiceFromDB = async (id: string) => {
-  console.log(id)
   const result = await Service.findByIdAndUpdate(
     { _id: id },
     { isDeleted: true },
@@ -102,4 +111,5 @@ export const ServiceServices = {
   updateServiceIntoDB,
   deleteServiceFromDB,
   createSlotFromDB,
+  addReviewToService,
 }

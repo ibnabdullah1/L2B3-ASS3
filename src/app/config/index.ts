@@ -9,4 +9,5 @@ export default {
   default_pass: process.env.DEFAULT_PASS,
   NODE_ENV: process.env.NODE_ENV,
   jwt_access_secret: process.env.JWT_ACCESS_SECRET,
+  stripe_secret_key: process.env.STRIPE_TEST_SECRET_KEY,
 }

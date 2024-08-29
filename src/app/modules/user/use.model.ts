@@ -9,6 +9,7 @@ const userSchema: Schema<TUser> = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     phone: { type: String, required: true },
+    profileUrl: { type: String, required: true },
     role: {
       type: String,
       required: true,
@@ -24,6 +25,7 @@ const userSchema: Schema<TUser> = new Schema(
 )
 
 userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const student = this
   student.password = await bcrypt.hash(
     student.password,

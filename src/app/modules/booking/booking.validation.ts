@@ -14,17 +14,14 @@ const createBookingValidationSchema = z.object({
     slotId: z.string({
       invalid_type_error: 'Slot must be string',
     }),
-    vehicleType: z.enum([...VehicleType] as [string, ...string[]]),
+    vehicleType: z.string({
+      invalid_type_error: 'vehicleType must be string',
+    }),
     vehicleModel: z.string({
       invalid_type_error: 'vehicleModel must be string',
     }),
-    manufacturingYear: z
-      .number({
-        invalid_type_error: 'ManufacturingYear must be number',
-      })
-      .int(),
-    registrationPlate: z.string({
-      invalid_type_error: 'RegistrationPlate must be string',
+    manufacturingYear: z.string({
+      invalid_type_error: 'ManufacturingYear must be number',
     }),
   }),
 })

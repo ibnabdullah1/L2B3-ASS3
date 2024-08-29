@@ -2,12 +2,12 @@ import { Model } from 'mongoose'
 import { USER_ROLE } from './user.constant'
 
 export interface TUser {
-  _id: any
-  id: any
+  _id: string
   name: string
   email: string
   password: string
   phone: string
+  profileUrl?: string
   role: 'admin' | 'user'
   address: string
 }
