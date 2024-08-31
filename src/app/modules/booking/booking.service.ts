@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
 import AppError from '../../errors/AppError'
+import { User } from '../auth/auth.model'
 import { Service, Slot } from '../service/service.model'
-import { User } from '../user/use.model'
 import { TBooking } from './booking.interface'
 import { Booking } from './booking.model'
 
@@ -30,6 +30,12 @@ const createBookingIntoDB = async (payload: TBooking, userEmail: string) => {
       'Slot not found, Please provide a valid SlotId',
     )
   }
+  await Slot.findByIdAndUpdate(
+    { _id: slotId },
+    { isBooked: 'booked' },
+    { new: true },
+  )
+
   if (isSlotExist.service.toString() !== serviceId.toString()) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
@@ -45,7 +51,6 @@ const createBookingIntoDB = async (payload: TBooking, userEmail: string) => {
     vehicleBrand: payload.vehicleBrand,
     vehicleModel: payload.vehicleModel,
     manufacturingYear: payload.manufacturingYear,
-    // registrationPlate: payload.registrationPlate,
   }
 
   const result = await Booking.create(mainData)
@@ -64,23 +69,6 @@ const createBookingIntoDB = async (payload: TBooking, userEmail: string) => {
     select: '_id service date startTime endTime isBooked',
   })
 
-  return result
-}
-
-const getUserAllBookingIntoDB = async () => {
-  const result = await Booking.find()
-    .populate({
-      path: 'customer',
-      select: 'name email phone address',
-    })
-    .populate({
-      path: 'service',
-      select: '_id name description price duration isDeleted',
-    })
-    .populate({
-      path: 'slot',
-      select: '_id service date startTime endTime isBooked',
-    })
   return result
 }
 
@@ -114,7 +102,6 @@ const getSingleBookingIntoDB = async (userEmail: string) => {
 }
 
 export const BookingServices = {
-  getUserAllBookingIntoDB,
   createBookingIntoDB,
   getAllBookingIntoDB,
   getSingleBookingIntoDB,

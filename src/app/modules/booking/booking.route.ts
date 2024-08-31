@@ -1,7 +1,7 @@
 import express from 'express'
 import { auth } from '../../middleware/auth'
 import { validateRequest } from '../../middleware/validateRequest'
-import { USER_ROLE } from '../user/user.constant'
+import { USER_ROLE } from '../auth/auth.constant'
 import { BookingControllers } from './booking.controller'
 import { BookingValidations } from './booking.validation'
 

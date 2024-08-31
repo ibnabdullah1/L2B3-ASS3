@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import { Schema, model } from 'mongoose'
 import config from '../../config'
-import { TUser, UserModel } from './user.interface'
+import { TUser, UserModel } from './auth.interface'
 
 const userSchema: Schema<TUser> = new Schema(
   {
@@ -17,6 +17,7 @@ const userSchema: Schema<TUser> = new Schema(
       default: 'user',
     },
     address: { type: String, required: true },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,

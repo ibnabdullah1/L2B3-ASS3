@@ -1,31 +1,51 @@
 import { RequestHandler } from 'express'
-import httpStatus from 'http-status'
 import catchAsync from '../../utils/catchAsync'
 import sendResponse from '../../utils/sendResponse'
 import { UserServices } from './user.service'
-const createUser: RequestHandler = catchAsync(async (req, res) => {
-  const result = await UserServices.signupIntoDB(req.body)
+
+const getSingleUser: RequestHandler = catchAsync(async (req, res) => {
+  const email = req.params.email
+  const result = await UserServices.getSingleUserIntoDB(email)
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: 200,
     success: true,
-    message: 'User registered successfully',
+    message: 'User retrieved successfully',
+    data: result,
+  })
+})
+const getAllUsers: RequestHandler = catchAsync(async (req, res) => {
+  const result = await UserServices.getAllUserIntoDB()
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User retrieved successfully',
     data: result,
   })
 })
 
-const loginUser = catchAsync(async (req, res) => {
-  const { AccessToken, filteredUser } = await UserServices.loginUser(req.body)
-
-  res.status(200).json({
-    success: true,
+const updateUserRole: RequestHandler = catchAsync(async (req, res) => {
+  const result = await UserServices.updateUserRole(req.body)
+  sendResponse(res, {
     statusCode: 200,
-    message: 'User is logged in successfully!',
-    token: AccessToken,
-    data: filteredUser,
+    success: true,
+    message: 'User Role Updated successfully',
+    data: result,
+  })
+})
+const deleteUser: RequestHandler = catchAsync(async (req, res) => {
+  const id = req.params.id
+  const result = await UserServices.deleteUserFromDB(id)
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'User Deleted successfully',
+    data: result,
   })
 })
 
 export const UserControllers = {
-  createUser,
-  loginUser,
+  getSingleUser,
+  getAllUsers,
+  updateUserRole,
+  deleteUser,
 }

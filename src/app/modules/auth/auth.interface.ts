@@ -1,5 +1,5 @@
 import { Model } from 'mongoose'
-import { USER_ROLE } from './user.constant'
+import { USER_ROLE } from './auth.constant'
 
 export interface TUser {
   _id: string
@@ -10,6 +10,7 @@ export interface TUser {
   profileUrl?: string
   role: 'admin' | 'user'
   address: string
+  isDeleted: boolean
 }
 
 export interface UserModel extends Model<TUser> {

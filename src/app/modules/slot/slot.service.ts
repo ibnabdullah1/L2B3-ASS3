@@ -2,11 +2,13 @@ import httpStatus from 'http-status'
 import AppError from '../../errors/AppError'
 import { Service, Slot } from '../service/service.model'
 import { isValidDateFormat } from '../service/service.utils'
+import { GetAvailableSlotsParams } from './slot.interface'
 
 const getAvailableSlots = async ({
   date,
   serviceId,
 }: GetAvailableSlotsParams) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filter: any = { isBooked: 'available' }
 
   if (date) {
@@ -35,6 +37,18 @@ const getAvailableSlots = async ({
 
   return availableSlots
 }
+const getAllSlots = async () => {
+  const result = await Slot.find().populate('service')
+
+  return result
+}
+const deleteSlotFromDB = async (id: string) => {
+  const result = await Slot.deleteOne({ _id: id })
+
+  return result
+}
 export const SlotServices = {
   getAvailableSlots,
+  getAllSlots,
+  deleteSlotFromDB,
 }

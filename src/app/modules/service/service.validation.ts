@@ -5,6 +5,9 @@ const createServiceValidationSchema = z.object({
     name: z.string({
       invalid_type_error: 'Name must be string',
     }),
+    image: z.string({
+      invalid_type_error: 'Image must be string',
+    }),
     description: z.string({
       invalid_type_error: 'Description must be string',
     }),
@@ -22,6 +25,11 @@ const updateServiceValidationSchema = z.object({
     name: z
       .string({
         invalid_type_error: 'Name must be string',
+      })
+      .optional(),
+    image: z
+      .string({
+        invalid_type_error: 'Image must be string',
       })
       .optional(),
     description: z

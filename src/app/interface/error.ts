@@ -1,4 +1,4 @@
-import { USER_ROLE } from '../modules/user/user.constant'
+import { USER_ROLE } from '../modules/auth/auth.constant'
 
 export type TErrorSources = {
   path: string
@@ -10,3 +10,7 @@ export type TGenericErrorResponse = {
   errorSources: TErrorSources
 }
 export type TUserRole = keyof typeof USER_ROLE
+export interface UpdateUserRoleData {
+  id: string
+  role: string
+}

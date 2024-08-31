@@ -4,13 +4,22 @@ import { auth } from './app/middleware/auth'
 import globalErrorHandler from './app/middleware/globalErrorHandler'
 import notFound from './app/middleware/notFound'
 import { BookingControllers } from './app/modules/booking/booking.controller'
-import { USER_ROLE } from './app/modules/user/user.constant'
+
+import { USER_ROLE } from './app/modules/auth/auth.constant'
 import router from './app/routes'
 
 const app: Application = express()
 
 app.use(express.json())
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5173',
+      'https://autocare-washing-system.vercel.app',
+    ],
+    credentials: true,
+  }),
+)
 
 // Application Routes
 app.use('/api', router)

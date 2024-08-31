@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { VehicleType } from './booking.constant'
 
 const createBookingValidationSchema = z.object({
   body: z.object({
@@ -30,7 +29,7 @@ const updateBookingValidationSchema = z.object({
     customer: z.string().optional(),
     service: z.string().optional(),
     slot: z.string().optional(),
-    vehicleType: z.enum([...VehicleType] as [string, ...string[]]).optional(),
+    vehicleType: z.string().optional(),
     vehicleModel: z.string().optional(),
     manufacturingYear: z.number().int().optional(),
     registrationPlate: z.string().optional(),

@@ -1,7 +1,7 @@
 import express from 'express'
 import { auth } from '../../middleware/auth'
 import { validateRequest } from '../../middleware/validateRequest'
-import { USER_ROLE } from '../user/user.constant'
+import { USER_ROLE } from '../auth/auth.constant'
 import { ServiceControllers } from './service.controller'
 import { ServiceValidations } from './service.validation'
 
@@ -20,7 +20,7 @@ router.post(
   ServiceControllers.createSlot,
 )
 router.put('/service-review/:id', ServiceControllers.addReviewInThisService)
-router.patch(
+router.put(
   '/:id',
   auth(USER_ROLE.admin),
   validateRequest(ServiceValidations.updateServiceValidationSchema),
