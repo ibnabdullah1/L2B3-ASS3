@@ -2,7 +2,6 @@ import httpStatus from 'http-status'
 import jwt from 'jsonwebtoken'
 import config from '../../config'
 import AppError from '../../errors/AppError'
-import { UpdateUserRoleData } from '../../interface/error'
 import { TLoginUser, TUser } from './auth.interface'
 import { User } from './auth.model'
 
@@ -12,7 +11,6 @@ const signupIntoDB = async (payload: TUser) => {
 }
 
 const loginUser = async (payload: TLoginUser) => {
-  // Check if the user is exists
   const user = await User.isUserExistsByEmail(payload.email)
 
   if (!user) {
@@ -22,10 +20,7 @@ const loginUser = async (payload: TLoginUser) => {
   const filteredUser = {
     name: user.name,
     email: user.email,
-    phone: user.phone,
     role: user.role,
-    profileUrl: user.profileUrl,
-    address: user.address,
   }
 
   // Checking if the password is correct
@@ -42,36 +37,14 @@ const loginUser = async (payload: TLoginUser) => {
     userEmail: user?.email as string,
     role: user.role,
     name: user.name,
-    profileUrl: user.profileUrl,
   }
   const AccessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
-    expiresIn: '10d',
+    expiresIn: '60d',
   })
 
   return { AccessToken, filteredUser }
 }
-const getAllUserIntoDB = async () => {
-  const result = await User.find()
-  return result
-}
-
-const getSingleUserIntoDB = async (email: string) => {
-  const result = await User.findOne({ email })
-  return result
-}
-const updateUserRole = async (data: UpdateUserRoleData) => {
-  const result = await User.findByIdAndUpdate(
-    { _id: data.id },
-    { role: data.role },
-    { new: true },
-  )
-  return result
-}
-
 export const AuthServices = {
   signupIntoDB,
   loginUser,
-  getAllUserIntoDB,
-  getSingleUserIntoDB,
-  updateUserRole,
 }

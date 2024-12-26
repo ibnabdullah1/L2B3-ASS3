@@ -8,15 +8,12 @@ const userSchema: Schema<TUser> = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    phone: { type: String, required: true },
-    profileUrl: { type: String, required: true },
     role: {
       type: String,
       required: true,
-      enum: ['admin', 'user'],
-      default: 'user',
+      enum: ['admin'],
+      default: 'admin',
     },
-    address: { type: String, required: true },
     isDeleted: { type: Boolean, default: false },
   },
   {

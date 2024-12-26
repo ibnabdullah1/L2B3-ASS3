@@ -10,16 +10,7 @@ const signUpValidationSchema = z.object({
     email: z.string({
       invalid_type_error: 'Email must be string',
     }),
-    phone: z.string({
-      invalid_type_error: 'Phone must be string',
-    }),
-    profileUrl: z.string({
-      invalid_type_error: 'ProfileUrl must be string',
-    }),
-    role: z.enum(['admin', 'user']),
-    address: z.string({
-      invalid_type_error: 'Address must be string',
-    }),
+    role: z.enum(['admin']),
   }),
 })
 
